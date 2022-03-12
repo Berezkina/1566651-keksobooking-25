@@ -1,5 +1,5 @@
-import {getRandomInt} from './util.js';
-import {getRandomFloat} from './util.js';
+import {getRandomInt} from './utils.js';
+import {getRandomFloat} from './utils.js';
 
 // Генерация данных
 
