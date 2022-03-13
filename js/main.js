@@ -1,3 +1,1 @@
-import {createOffers} from './data.js';
-
-createOffers();
+import './cards-markup.js';
