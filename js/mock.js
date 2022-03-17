@@ -1,60 +1,7 @@
-import {getRandomInt} from './utils.js';
-import {getRandomFloat} from './utils.js';
+import {getRandomInt, getRandomFloat} from './utils.js';
+import {NUMBER_OF_OFFERS, MIN_PRICE, MAX_PRICE, MIN_ROOMS, MAX_ROOMS, MIN_GUESTS, MAX_GUESTS, TITLES, TYPES, TIME, FEATURES, DESCRIPTIONS, PHOTOS} from './consts.js';
 
 // Генерация данных
-
-const NUMBER_OF_OFFERS = 10;
-const MIN_PRICE = 1;
-const MAX_PRICE = 1000000;
-const MIN_ROOMS = 1;
-const MAX_ROOMS = 10;
-const MIN_GUESTS = 1;
-const MAX_GUESTS = 100;
-
-const TITLES = [
-  'Гостевой дом',
-  'Апартаменты Sweet Home',
-  'Семейный отель Мария',
-  'Бунгало на Лесной',
-  'Уютная квартира в центре'
-];
-
-const TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
-
-const TIME = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-
-const DESCRIPTIONS = [
-  'Номер с великолепным видом на горы',
-  'В каждом номере есть кабельное телевидение, а в некоторых даже установлен кондиционер',
-  'Райское место для любителей тишины',
-  'Имеется всё необходимое для проживания',
-  'Парк-отель с баром и прямым доступом к лыжным трассам',
-];
-
-const PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
 
 const getRandomArrayElement = (array) => array[getRandomInt(0, array.length - 1)];
 

@@ -12,5 +12,4 @@ const getRandomFloat = (a, b, dec = 1) => {
   return Number(Math.random() * (max - min) + min).toFixed(dec);
 };
 
-export {getRandomInt};
-export {getRandomFloat};
+export {getRandomInt, getRandomFloat};
