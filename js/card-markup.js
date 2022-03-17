@@ -1,19 +1,6 @@
-import {createOffers} from './mock.js';
+import {OFFER_TYPE_TEXT} from './consts.js';
 
-const OFFER_TYPE_TEXT = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
-};
-
-const similarOffersElement = document.querySelector('#map-canvas');
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-const similarOffers = createOffers();
-
-const similarOffersFragment = document.createDocumentFragment();
 
 const getFeaturesList = (featuresContainer, features) => {
   if (!features.length) {
@@ -51,7 +38,7 @@ const getPhotosList = (photosContainer, photos) => {
   }
 };
 
-similarOffers.forEach(({author, offer}) => {
+const markupCard = ({offer, author}) => {
   const cardElement = similarCardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
@@ -63,7 +50,7 @@ similarOffers.forEach(({author, offer}) => {
   cardElement.querySelector('.popup__description').textContent = offer.description;
   getPhotosList(cardElement.querySelector('.popup__photos'), offer.photos);
   cardElement.querySelector('.popup__avatar').setAttribute('src', author.avatar);
-  similarOffersFragment.appendChild(cardElement);
-});
+  return cardElement;
+};
 
-similarOffersElement.appendChild(similarOffersFragment.children[0]);
+export {markupCard};
