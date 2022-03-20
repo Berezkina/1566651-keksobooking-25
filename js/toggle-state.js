@@ -1,39 +1,26 @@
 import {FORM_LIST} from './consts.js';
 
-const activateForms = () => {
-  FORM_LIST.forEach((formName) => {
-    const form = document.querySelector(`.${formName}`);
-
-    if (!form) {
-      form.classList.remove(`${formName}--disabled`);
-
-      form.querySelectorAll('fieldset').forEach((field) => {
-        field.disabled = false;
-      });
-
-      form.querySelectorAll('select').forEach((field) => {
-        field.disabled = false;
-      });
-    }
-  });
-};
-
-const deactivateForms = () => {
+const deactivateForms = (bool) => {
   FORM_LIST.forEach((formName) => {
     const form = document.querySelector(`.${formName}`);
 
     if (form) {
-      form.classList.add(`${formName}--disabled`);
+      if (bool) {
+        form.classList.add(`${formName}--disabled`);
+      }
+      else {
+        form.classList.remove(`${formName}--disabled`);
+      }
 
       form.querySelectorAll('fieldset').forEach((field) => {
-        field.disabled = true;
+        field.disabled = bool;
       });
 
       form.querySelectorAll('select').forEach((field) => {
-        field.disabled = true;
+        field.disabled = bool;
       });
     }
   });
 };
 
-export {activateForms, deactivateForms};
+export {deactivateForms};
