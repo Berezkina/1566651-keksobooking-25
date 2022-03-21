@@ -2,6 +2,10 @@ import {OFFER_TYPE_TEXT} from './consts.js';
 
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
+const similarOffersElement = document.querySelector('#map-canvas');
+
+const similarOffersFragment = document.createDocumentFragment();
+
 const getFeaturesList = (featuresContainer, features) => {
   if (!features.length) {
     featuresContainer.classList.add('hidden');
@@ -50,7 +54,8 @@ const markupCard = ({offer, author}) => {
   cardElement.querySelector('.popup__description').textContent = offer.description;
   getPhotosList(cardElement.querySelector('.popup__photos'), offer.photos);
   cardElement.querySelector('.popup__avatar').setAttribute('src', author.avatar);
-  return cardElement;
+  similarOffersFragment.append(cardElement);
+  similarOffersElement.append(similarOffersFragment);
 };
 
 export {markupCard};
