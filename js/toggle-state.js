@@ -1,11 +1,11 @@
 import {FORM_LIST} from './consts.js';
 
-const deactivateForms = (bool) => {
+const deactivateForms = (shouldDeactivate) => {
   FORM_LIST.forEach((formName) => {
     const form = document.querySelector(`.${formName}`);
 
     if (form) {
-      if (bool) {
+      if (shouldDeactivate) {
         form.classList.add(`${formName}--disabled`);
       }
       else {
@@ -13,11 +13,11 @@ const deactivateForms = (bool) => {
       }
 
       form.querySelectorAll('fieldset').forEach((field) => {
-        field.disabled = bool;
+        field.disabled = shouldDeactivate;
       });
 
       form.querySelectorAll('select').forEach((field) => {
-        field.disabled = bool;
+        field.disabled = shouldDeactivate;
       });
     }
   });

@@ -11,11 +11,9 @@ const pristine = new Pristine(adForm, {
 
 //Проверка поля "Цена за ночь"
 const priceField = adForm.querySelector('#price');
-const typeField = document.querySelector('#type');
+const typeField = adForm.querySelector('#type');
 
-function validateMaxPrice (value) {
-  return value <= 100000;
-}
+const validateMaxPrice = (value) => value <= 100000;
 
 pristine.addValidator(priceField, validateMaxPrice, 'Максимальная цена — 100000');
 
@@ -27,26 +25,20 @@ const minPrice = {
   'palace': 10000,
 };
 
-function validateMinPrice (value) {
-  return value >= minPrice[typeField.value];
-}
+const validateMinPrice = (value) => value >= minPrice[typeField.value];
 
-function getMinPriceErrorMessage () {
-  return `Минимальная цена - ${minPrice[typeField.value]}`;
-}
+const getMinPriceErrorMessage = () => `Минимальная цена - ${minPrice[typeField.value]}`;
 
 pristine.addValidator(priceField, validateMinPrice, getMinPriceErrorMessage);
 
-function onTypeChange () {
-  priceField.placeholder = minPrice[this.value];
+typeField.addEventListener('change', (evt) => {
+  priceField.placeholder = minPrice[evt.target.value];
   pristine.validate(priceField);
-}
-
-typeField.addEventListener('change', onTypeChange);
+});
 
 //Проверка поля "Количество мест"
 const capacityField = adForm.querySelector('#capacity');
-const roomNumberField = document.querySelector('#room_number');
+const roomNumberField = adForm.querySelector('#room_number');
 
 const capacityOption = {
   '1': '1',
@@ -55,21 +47,25 @@ const capacityOption = {
   '100': '0'
 };
 
-function validateCapacity () {
-  return capacityOption[roomNumberField.value].includes(capacityField.value);
-}
+const validateCapacity = () => capacityOption[roomNumberField.value].includes(capacityField.value);
 
-function getCapacityErrorMessage () {
-  return 'Недопустимое значение';
-}
+pristine.addValidator(capacityField, validateCapacity, 'Недопустимое значение');
 
-pristine.addValidator(capacityField, validateCapacity, getCapacityErrorMessage);
-
-const onRoomNumberChange = () => {
+roomNumberField.addEventListener('change', () => {
   pristine.validate(capacityField);
-};
+});
 
-roomNumberField.addEventListener('change', onRoomNumberChange);
+//Проверка полей "Время заезда и выезда"
+const timeinField = adForm.querySelector('#timein');
+const timeoutField = adForm.querySelector('#timeout');
+
+timeinField.addEventListener('change', (evt) => {
+  timeoutField.value = evt.target.value;
+});
+
+timeoutField.addEventListener('change', (evt) => {
+  timeinField.value = evt.target.value;
+});
 
 //Отправка формы
 adForm.addEventListener('submit', (evt) => {
