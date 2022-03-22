@@ -1,11 +1,14 @@
 import {getRandomInt, getRandomFloat} from './utils.js';
 
-const countEnum = {
+const MinValues = {
   MIN_PRICE: 1,
-  MAX_PRICE: 1000000,
   MIN_ROOMS: 1,
-  MAX_ROOMS: 10,
   MIN_GUESTS: 1,
+};
+
+const MaxValues = {
+  MAX_PRICE: 1000000,
+  MAX_ROOMS: 10,
   MAX_GUESTS: 100,
 };
 
@@ -77,10 +80,10 @@ const createOffer = (idx) => {
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `${locationLat}, ${locationLng}`,
-      price: getRandomInt(countEnum.MIN_PRICE, countEnum.MAX_PRICE),
+      price: getRandomInt(MinValues.MIN_PRICE, MaxValues.MAX_PRICE),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomInt(countEnum.MIN_ROOMS, countEnum.MAX_ROOMS),
-      guests: getRandomInt(countEnum.MIN_GUESTS, countEnum.MAX_GUESTS),
+      rooms: getRandomInt(MinValues.MIN_ROOMS, MaxValues.MAX_ROOMS),
+      guests: getRandomInt(MinValues.MIN_GUESTS, MaxValues.MAX_GUESTS),
       checkin: getRandomArrayElement(TIME),
       checkout: getRandomArrayElement(TIME),
       features: getRandomArraySlice(FEATURES),
