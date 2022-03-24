@@ -1,4 +1,25 @@
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+const capacityOption = {
+  1: '1',
+  2: ['2', '1'],
+  3: ['3', '2', '1'],
+  100: '0',
+};
+
 const adForm = document.querySelector('.ad-form');
+const priceField = adForm.querySelector('#price');
+const typeField = adForm.querySelector('#type');
+const capacityField = adForm.querySelector('#capacity');
+const roomNumberField = adForm.querySelector('#room_number');
+const timeinField = adForm.querySelector('#timein');
+const timeoutField = adForm.querySelector('#timeout');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -10,20 +31,10 @@ const pristine = new Pristine(adForm, {
 });
 
 //Проверка поля "Цена за ночь"
-const priceField = adForm.querySelector('#price');
-const typeField = adForm.querySelector('#type');
 
 const validateMaxPrice = (value) => value <= 100000;
 
 pristine.addValidator(priceField, validateMaxPrice, 'Максимальная цена — 100000');
-
-const minPrice = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000,
-};
 
 const validateMinPrice = (value) => value >= minPrice[typeField.value];
 
@@ -37,15 +48,6 @@ typeField.addEventListener('change', (evt) => {
 });
 
 //Проверка поля "Количество мест"
-const capacityField = adForm.querySelector('#capacity');
-const roomNumberField = adForm.querySelector('#room_number');
-
-const capacityOption = {
-  '1': '1',
-  '2': ['2', '1'],
-  '3': ['3', '2', '1'],
-  '100': '0'
-};
 
 const validateCapacity = () => capacityOption[roomNumberField.value].includes(capacityField.value);
 
@@ -56,8 +58,6 @@ roomNumberField.addEventListener('change', () => {
 });
 
 //Проверка полей "Время заезда и выезда"
-const timeinField = adForm.querySelector('#timein');
-const timeoutField = adForm.querySelector('#timeout');
 
 timeinField.addEventListener('change', (evt) => {
   timeoutField.value = evt.target.value;
@@ -68,6 +68,7 @@ timeoutField.addEventListener('change', (evt) => {
 });
 
 //Отправка формы
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();

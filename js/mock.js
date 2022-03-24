@@ -14,7 +14,7 @@ const MaxValues = {
 
 const NUMBER_OF_OFFERS = 10;
 
-const TITLES = [
+const titles = [
   'Гостевой дом',
   'Апартаменты Sweet Home',
   'Семейный отель Мария',
@@ -22,7 +22,7 @@ const TITLES = [
   'Уютная квартира в центре'
 ];
 
-const TYPES = [
+const types = [
   'palace',
   'flat',
   'house',
@@ -30,13 +30,13 @@ const TYPES = [
   'hotel',
 ];
 
-const TIME = [
+const time = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const FEATURES = [
+const features = [
   'wifi',
   'dishwasher',
   'parking',
@@ -45,7 +45,7 @@ const FEATURES = [
   'conditioner',
 ];
 
-const DESCRIPTIONS = [
+const descriptions = [
   'Номер с великолепным видом на горы',
   'В каждом номере есть кабельное телевидение, а в некоторых даже установлен кондиционер',
   'Райское место для любителей тишины',
@@ -53,7 +53,7 @@ const DESCRIPTIONS = [
   'Парк-отель с баром и прямым доступом к лыжным трассам',
 ];
 
-const PHOTOS = [
+const photos = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
@@ -78,17 +78,17 @@ const createOffer = (idx) => {
       avatar: `img/avatars/user${(currentIndex.toString()).padStart(2, '0')}.png`
     },
     offer: {
-      title: getRandomArrayElement(TITLES),
+      title: getRandomArrayElement(titles),
       address: `${locationLat}, ${locationLng}`,
       price: getRandomInt(MinValues.MIN_PRICE, MaxValues.MAX_PRICE),
-      type: getRandomArrayElement(TYPES),
+      type: getRandomArrayElement(types),
       rooms: getRandomInt(MinValues.MIN_ROOMS, MaxValues.MAX_ROOMS),
       guests: getRandomInt(MinValues.MIN_GUESTS, MaxValues.MAX_GUESTS),
-      checkin: getRandomArrayElement(TIME),
-      checkout: getRandomArrayElement(TIME),
-      features: getRandomArraySlice(FEATURES),
-      description: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomArraySlice(PHOTOS),
+      checkin: getRandomArrayElement(time),
+      checkout: getRandomArrayElement(time),
+      features: getRandomArraySlice(features),
+      description: getRandomArrayElement(descriptions),
+      photos: getRandomArraySlice(photos),
     },
     location: {
       lat: locationLat,
