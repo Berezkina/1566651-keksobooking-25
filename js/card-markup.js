@@ -1,10 +1,6 @@
-import {OFFER_TYPE_TEXT} from './consts.js';
+import {offerTypeText} from './consts.js';
 
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-const similarOffersElement = document.querySelector('#map-canvas');
-
-const similarOffersFragment = document.createDocumentFragment();
 
 const getFeaturesList = (featuresContainer, features) => {
   if (!features.length) {
@@ -42,20 +38,19 @@ const getPhotosList = (photosContainer, photos) => {
   }
 };
 
-const markupCard = ({offer, author}) => {
+const markupCard = ({author, offer}) => {
   const cardElement = similarCardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = OFFER_TYPE_TEXT[offer.type];
+  cardElement.querySelector('.popup__type').textContent = offerTypeText[offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   getFeaturesList(cardElement.querySelector('.popup__features'), offer.features);
   cardElement.querySelector('.popup__description').textContent = offer.description;
   getPhotosList(cardElement.querySelector('.popup__photos'), offer.photos);
   cardElement.querySelector('.popup__avatar').setAttribute('src', author.avatar);
-  similarOffersFragment.append(cardElement);
-  similarOffersElement.append(similarOffersFragment);
+  return cardElement;
 };
 
 export {markupCard};
