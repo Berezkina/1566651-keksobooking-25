@@ -1,9 +1,9 @@
-import {offerTypeText} from './consts.js';
+import {OfferTypeText} from './consts.js';
 
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const getFeaturesList = (featuresContainer, features) => {
-  if (!features.length) {
+  if (typeof features === 'undefined') {
     featuresContainer.classList.add('hidden');
   }
   else {
@@ -21,7 +21,7 @@ const getFeaturesList = (featuresContainer, features) => {
 };
 
 const getPhotosList = (photosContainer, photos) => {
-  if (!photos.length) {
+  if (typeof photos === 'undefined') {
     photosContainer.classList.add('hidden');
   }
   else {
@@ -43,7 +43,7 @@ const markupCard = ({author, offer}) => {
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = offerTypeText[offer.type];
+  cardElement.querySelector('.popup__type').textContent = OfferTypeText[offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   getFeaturesList(cardElement.querySelector('.popup__features'), offer.features);
