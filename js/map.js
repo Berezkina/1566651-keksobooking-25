@@ -1,11 +1,11 @@
-import {createOffers} from './mock.js';
 import {markupCard} from './card-markup.js';
 import {deactivateForms} from './toggle-state.js';
 import {MapSettings} from './consts.js';
+import {getData} from './api.js';
 
+const mapFilters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
 const addressField = adForm.querySelector('#address');
-const resetButton = adForm.querySelector('.ad-form__reset');
 
 deactivateForms(true);
 
@@ -79,17 +79,14 @@ const createOfferMarker = ({author, offer, location}) => {
     .bindPopup(markupCard({author, offer}));
 };
 
-const similarOffers = createOffers();
-
-similarOffers.forEach(({author, offer, location}) => {
-  createOfferMarker({author, offer, location});
+getData((offers) => {
+  offers.forEach(({author, offer, location}) => {
+    createOfferMarker({author, offer, location});
+  });
 });
 
-//Установить карту в исходное состояние
-
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  adForm.reset();
+const resetMap = () => {
+  mapFilters.reset();
 
   map
     .setView({
@@ -104,4 +101,6 @@ resetButton.addEventListener('click', (evt) => {
   });
 
   setAddressFieldValue(MapSettings.CENTER);
-});
+};
+
+export {resetMap};

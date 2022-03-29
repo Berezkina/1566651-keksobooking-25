@@ -1,12 +1,12 @@
-export const offerTypeText = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
+export const OfferTypeText = {
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+  HOTEL: 'Отель',
 };
 
-export const forms = [
+export const FORMS = [
   'ad-form',
   'map__filters',
 ];

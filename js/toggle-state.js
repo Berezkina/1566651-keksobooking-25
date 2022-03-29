@@ -1,7 +1,7 @@
-import {forms} from './consts.js';
+import {FORMS} from './consts.js';
 
 const deactivateForms = (shouldDeactivate) => {
-  forms.forEach((formName) => {
+  FORMS.forEach((formName) => {
     const form = document.querySelector(`.${formName}`);
 
     if (form) {
