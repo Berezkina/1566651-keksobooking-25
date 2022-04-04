@@ -1,4 +1,4 @@
-import {OfferTypeText} from './consts.js';
+import { OfferTypeText } from './consts.js';
 
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -53,4 +53,4 @@ const markupCard = ({author, offer}) => {
   return cardElement;
 };
 
-export {markupCard};
+export { markupCard };

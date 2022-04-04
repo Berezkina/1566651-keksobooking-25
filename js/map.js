@@ -1,28 +1,19 @@
-import {markupCard} from './card-markup.js';
-import {deactivateForms} from './toggle-state.js';
-import {MapSettings} from './consts.js';
-import {getData} from './api.js';
+import { deactivateForms } from './toggle-state.js';
+import { MapSettings, NUMBER_OF_OFFERS, API_URL } from './consts.js';
+import { showErrorOnMap } from './utils.js';
+import { getData } from './api.js';
+import { markupCard } from './card-markup.js';
 
-const mapFilters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
+const mapFilters = document.querySelector('.map__filters');
 const addressField = adForm.querySelector('#address');
 
 deactivateForms(true);
 
-const setAddressFieldValue = (address) => {
-  addressField.value = `${address.lat.toFixed(5)}, ${address.lng.toFixed(5)}`;
-};
+//инициализация карты
+const map = L.map('map-canvas');
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    deactivateForms(false);
-    setAddressFieldValue(MapSettings.CENTER);
-  })
-  .setView({
-    lat: MapSettings.CENTER.lat,
-    lng: MapSettings.CENTER.lng,
-  }, MapSettings.ZOOM);
-
+//загрузка и отображение слоев
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -30,30 +21,9 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const mainPinIcon = L.icon ({
-  iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const mainPinMarker = L.marker(
-  {
-    lat: MapSettings.CENTER.lat,
-    lng: MapSettings.CENTER.lng,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
-
-mainPinMarker.addTo(map);
-
-mainPinMarker.on('moveend', (evt) => {
-  setAddressFieldValue(evt.target.getLatLng());
-});
-
-//Показать объявления на карте
+const setAddressFieldValue = (address) => {
+  addressField.value = `${address.lat.toFixed(5)}, ${address.lng.toFixed(5)}`;
+};
 
 const offerPinIcon = L.icon ({
   iconUrl: '../img/pin.svg',
@@ -79,11 +49,55 @@ const createOfferMarker = ({author, offer, location}) => {
     .bindPopup(markupCard({author, offer}));
 };
 
-getData((offers) => {
-  offers.forEach(({author, offer, location}) => {
+const setOffersMarker = (offers) => {
+  offers.slice(0, NUMBER_OF_OFFERS).forEach(({author, offer, location}) => {
     createOfferMarker({author, offer, location});
   });
+};
+
+const onMapLoad = () => {
+  deactivateForms(false);
+  setAddressFieldValue(MapSettings.CENTER);
+  getData(setOffersMarker, showErrorOnMap, API_URL);
+};
+
+//событие успешной загрузки карты
+map.on('load', () => {
+  onMapLoad();
+})
+  .setView({
+    lat: MapSettings.CENTER.lat,
+    lng: MapSettings.CENTER.lng,
+  }, MapSettings.ZOOM);
+
+//иконка для главного маркера
+const mainPinIcon = L.icon ({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
 });
+
+//установка главного маркера
+const mainPinMarker = L.marker(
+  {
+    lat: MapSettings.CENTER.lat,
+    lng: MapSettings.CENTER.lng,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
+//добавление главного маркера на карту
+mainPinMarker.addTo(map);
+
+//перемещение главного маркера
+mainPinMarker.on('moveend', (evt) => {
+  setAddressFieldValue(evt.target.getLatLng());
+});
+
+const clearMarkerGroup = () => markerGroup.clearLayers();
 
 const resetMap = () => {
   mapFilters.reset();
@@ -103,4 +117,5 @@ const resetMap = () => {
   setAddressFieldValue(MapSettings.CENTER);
 };
 
-export {resetMap};
+export { setOffersMarker, clearMarkerGroup, resetMap };
+

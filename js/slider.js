@@ -2,7 +2,6 @@ const adForm = document.querySelector('.ad-form');
 const sliderElement = adForm.querySelector('.ad-form__slider');
 const valueElement = adForm.querySelector('#price');
 const typeElement = adForm.querySelector('#type');
-const resetButton = adForm.querySelector('.ad-form__reset');
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -44,6 +43,8 @@ typeElement.addEventListener('change', () => {
   }
 });
 
-resetButton.addEventListener('click', () => {
+const resetSlider = () => {
   sliderElement.noUiSlider.reset();
-});
+};
+
+export { resetSlider };
