@@ -18,3 +18,9 @@ export const MapSettings = {
   },
   ZOOM: 13,
 };
+
+export const NUMBER_OF_OFFERS = 10;
+
+export const API_URL = 'https://25.javascript.pages.academy/keksobooking';
+
+export const FILE_TYPES = ['jpg', 'jpeg', 'png'];

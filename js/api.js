@@ -1,35 +1,18 @@
-const showError = (message) => {
-  const messageElement = document.createElement('div');
-  messageElement.style.zIndex = 500;
-  messageElement.style.position = 'absolute';
-  messageElement.style.left = 0;
-  messageElement.style.top = 0;
-  messageElement.style.right = 0;
-  messageElement.style.padding = '10px 3px';
-  messageElement.style.fontSize = '15px';
-  messageElement.style.textAlign = 'center';
-  messageElement.style.color = 'white';
-  messageElement.style.backgroundColor = 'red';
-  messageElement.textContent = message;
-  document.querySelector('.map').insertAdjacentElement('afterbegin', messageElement);
-};
-
-const getData = (onSuccess) => {
-  fetch('https://25.javascript.pages.academy/keksobooking/data')
+const getData = (onSuccess, onError, URL) => {
+  fetch(`${URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response;
       }
-      throw new Error(`${response.status} — ${response.statusText}`);
+      onError(`${response.status} — ${response.statusText}`);
     })
     .then((response) => response.json())
     .then((data) => onSuccess(data))
-    .catch((err) => showError(`Не удалось загрузить данные с сервера: ${err}`));
+    .catch(() => onError('Ошибка обработки данных'));
 };
 
-const sendData = (onSuccess, onFail, body) => {
-  fetch(
-    'https://25.javascript.pages.academy/keksobooking',
+const sendData = (onSuccess, onError, body, URL) => {
+  fetch(URL,
     {
       method: 'POST',
       body,
@@ -39,12 +22,10 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        throw new Error(`${response.status} — ${response.statusText}`);
+        onError();
       }
     })
-    .catch(() => {
-      onFail();
-    });
+    .catch(() => onError());
 };
 
-export {getData, sendData};
+export { getData, sendData };

@@ -1,6 +1,9 @@
-import {sendData} from './api.js';
-import {resetMap} from './map.js';
-import {isEscapeKey} from './utils.js';
+import { sendData } from './api.js';
+import { resetMap } from './map.js';
+import { isEscapeKey, debounce } from './utils.js';
+import { setFilteredOffers } from './map-filters.js';
+import { resetSlider } from './slider.js';
+import { API_URL } from './consts.js';
 
 const MinPrice = {
   BUNGALOW: 0,
@@ -20,6 +23,7 @@ const capacityOption = {
 const adForm = document.querySelector('.ad-form');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const resetButton = adForm.querySelector('.ad-form__reset');
+const mapFilters = document.querySelector('.map__filters');
 
 const priceField = adForm.querySelector('#price');
 const typeField = adForm.querySelector('#type');
@@ -54,7 +58,6 @@ typeField.addEventListener('change', (evt) => {
   pristine.validate(priceField);
 });
 
-
 //Проверка поля "Количество мест"
 
 const validateCapacity = () => capacityOption[roomNumberField.value].includes(capacityField.value);
@@ -82,6 +85,7 @@ const blockSubmitButton = () => {
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
 };
 
 const showPopupMessage = (messageType) => {
@@ -101,32 +105,33 @@ const showPopupMessage = (messageType) => {
   }, { once: true });
 };
 
+const onSuccessSendData = () => {
+  showPopupMessage('success');
+  adForm.reset();
+  resetSlider();
+  resetMap();
+  unblockSubmitButton();
+};
+
+const onErrorSendData = () => {
+  showPopupMessage('error');
+  unblockSubmitButton();
+};
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-
   const isValid = pristine.validate();
-
   if (isValid) {
-
     blockSubmitButton();
-    sendData(
-      () => {
-        showPopupMessage('success');
-        adForm.reset();
-        resetMap();
-        unblockSubmitButton();
-      },
-      () => {
-        showPopupMessage('error');
-        unblockSubmitButton();
-      },
-      new FormData(evt.target),
-    );
+    sendData(onSuccessSendData, onErrorSendData, new FormData(evt.target), API_URL);
   }
 });
+
+mapFilters.addEventListener('change', debounce(setFilteredOffers, 2000));
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
+  resetSlider();
   resetMap();
 });

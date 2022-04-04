@@ -1,4 +1,4 @@
-import {FORMS} from './consts.js';
+import { FORMS } from './consts.js';
 
 const deactivateForms = (shouldDeactivate) => {
   FORMS.forEach((formName) => {
@@ -23,4 +23,4 @@ const deactivateForms = (shouldDeactivate) => {
   });
 };
 
-export {deactivateForms};
+export { deactivateForms };
