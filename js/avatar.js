@@ -1,4 +1,4 @@
-import { FILE_TYPES } from './consts.js';
+import { FILE_TYPES, DEFAULT_AVATAR } from './consts.js';
 
 const avatarChooser = document.querySelector('.ad-form__field input[type=file]');
 const avatarElement = document.querySelector('.user_pic');
@@ -11,3 +11,7 @@ avatarChooser.addEventListener('change', () => {
     avatarElement.src = URL.createObjectURL(file);
   }
 });
+
+export const setDefaultAvatar = () => {
+  avatarElement.src = DEFAULT_AVATAR;
+};

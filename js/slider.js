@@ -1,3 +1,5 @@
+import { SliderSettings } from './consts.js';
+
 const adForm = document.querySelector('.ad-form');
 const sliderElement = adForm.querySelector('.ad-form__slider');
 const valueElement = adForm.querySelector('#price');
@@ -5,12 +7,12 @@ const typeElement = adForm.querySelector('#type');
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: 0,
-    max: 100000,
+    min: SliderSettings.RANGE.min,
+    max: SliderSettings.RANGE.max,
   },
-  start: 5000,
-  step: 500,
-  connect: 'lower',
+  start: SliderSettings.START,
+  step: SliderSettings.STEP,
+  connect: SliderSettings.CONNECT,
   format: {
     to: function (value) {
       if (Number.isInteger(value)) {

@@ -1,94 +1,47 @@
-import { NUMBER_OF_OFFERS, API_URL } from './consts.js';
-import { showErrorOnMap } from './utils.js';
-import { getData } from './api.js';
-import { setOffersMarker, clearMarkerGroup } from './map.js';
+import { getDataCache } from './cache.js';
+import { NUMBER_OF_OFFERS, DEFAULT_VALUE, housingPrice } from './consts.js';
 
-const filtersArray = new Map();
+const mapFilters = document.querySelector('.map__filters');
+const typeFilter = mapFilters.querySelector('#housing-type');
+const priceFilter = mapFilters.querySelector('#housing-price');
+const roomsFilter = mapFilters.querySelector('#housing-rooms');
+const guestsFilter = mapFilters.querySelector('#housing-guests');
+const featuresFilter = mapFilters.querySelector('#housing-features');
 
-const getFiltersArray = () => {
-  const mapFilters = document.querySelector('.map__filters');
+const checkType = (element) => typeFilter.value === DEFAULT_VALUE || element.type === typeFilter.value;
 
-  filtersArray.clear();
-  const features = [];
-  const price = {};
+const checkRooms = (element) => roomsFilter.value === DEFAULT_VALUE || element.rooms === Number(roomsFilter.value);
 
-  const { elements } = mapFilters;
+const checkGuests = (element) => guestsFilter.value === DEFAULT_VALUE || element.guests === Number(guestsFilter.value);
 
-  Array.from(elements).forEach((element) => {
-    const { name, value, checked } = element;
-    if (value === 'any') {
-      return;
-    }
-    switch (name) {
-      case 'housing-type':
-        return filtersArray.set('type', value);
-      case 'housing-price':
-        switch (value) {
-          case 'low':
-            price.low = 0;
-            price.high = 9999;
-            break;
-          case 'middle':
-            price.low = 10000;
-            price.high = 50000;
-            break;
-          case 'high':
-            price.low = 50001;
-            price.high = 100000;
-        }
-        return filtersArray.set('price', price);
-      case 'housing-rooms':
-        return filtersArray.set('rooms', Number(value));
-      case 'housing-guests':
-        return filtersArray.set('guests', Number(value));
-      case 'features':
-        if (checked) {
-          features.push(value);
-        }
-        if (features.length === 0) {
-          return;
-        }
-        return filtersArray.set('features', features);
-    }
-  });
-};
+const checkPrice = (element) => priceFilter.value === DEFAULT_VALUE || element.price >= housingPrice[priceFilter.value].min && element.price <= housingPrice[priceFilter.value].max;
 
-const filterItem = (element, key) => {
-  if (!filtersArray.has(key)) {
+const checkFeatures = (element) => {
+  const features = Array.from(featuresFilter.querySelectorAll('input[name="features"]:checked'));
+  if (features.length === 0) {
     return true;
   }
-  switch (key) {
-    case 'type':
-    case 'rooms':
-    case 'guests':
-      return element === filtersArray.get(key);
-    case 'price':
-      return element >= filtersArray.get(key).low && element < filtersArray.get(key).high;
-    case 'features':
-      if (typeof element === 'undefined') {
-        return false;
-      }
-      return Array.from(filtersArray.get(key)).every((feature) => element.includes(feature));
+  if (typeof element.features === 'undefined') {
+    return false;
   }
+  return features.every((item) => element.features.includes(item.value));
 };
+
+const filterItem = (element) => checkType(element) && checkPrice(element) && checkRooms(element) && checkGuests(element) && checkFeatures(element);
 
 const filterOffers = (offers) => {
-  let newOffers;
-  if (filtersArray.size !== 0) {
-    newOffers = offers.filter((item) => filterItem(item.offer.type, 'type') &&
-                                        filterItem(item.offer.price, 'price') &&
-																				filterItem(item.offer.rooms, 'rooms') &&
-                                        filterItem(item.offer.guests, 'guests') &&
-																				filterItem(item.offer.features, 'features')).slice(0, NUMBER_OF_OFFERS);
+  const newOffers = [];
+  for (let i = 0; i < offers.length; i++) {
+    if (newOffers.length === NUMBER_OF_OFFERS) {
+      break;
+    }
+    if (filterItem(offers[i].offer)) {
+      newOffers.push(offers[i]);
+    }
   }
-  clearMarkerGroup();
-  setOffersMarker(newOffers);
+  return newOffers;
 };
 
-const setFilteredOffers = () => {
-  getFiltersArray();
-  getData(filterOffers, showErrorOnMap, API_URL);
-};
+const getFilteredOffers = () => filterOffers(getDataCache());
 
-export { setFilteredOffers };
-
+export { getFilteredOffers };

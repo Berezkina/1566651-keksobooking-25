@@ -1,5 +1,5 @@
-const getData = (onSuccess, onError, URL) => {
-  fetch(`${URL}/data`)
+const getData = (onSuccess, onError, url) => {
+  fetch(url)
     .then((response) => {
       if (response.ok) {
         return response;
@@ -11,8 +11,8 @@ const getData = (onSuccess, onError, URL) => {
     .catch(() => onError('Ошибка обработки данных'));
 };
 
-const sendData = (onSuccess, onError, body, URL) => {
-  fetch(URL,
+const sendData = (onSuccess, onError, body, url) => {
+  fetch(url,
     {
       method: 'POST',
       body,
