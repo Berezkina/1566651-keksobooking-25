@@ -1,4 +1,4 @@
-import { FILE_TYPES } from './consts.js';
+import { FILE_TYPES, PhotoSettings } from './consts.js';
 
 const photoChooser = document.querySelector('.ad-form__upload input[type=file]');
 const photoPreview = document.querySelector('.ad-form__photo');
@@ -9,9 +9,9 @@ photoChooser.addEventListener('change', () => {
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
-  imageElement.width = '70';
-  imageElement.height = '70';
-  imageElement.alt = 'Фотография жилья';
+  imageElement.width = PhotoSettings.WIDTH;
+  imageElement.height = PhotoSettings.HEIGHT;
+  imageElement.alt = PhotoSettings.ALT;
 
   if (matches) {
     imageElement.src = URL.createObjectURL(file);
@@ -19,3 +19,7 @@ photoChooser.addEventListener('change', () => {
   photoPreview.appendChild(imageElement);
   return imageElement;
 });
+
+export const removeImage = () => {
+  imageElement.remove();
+};

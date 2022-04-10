@@ -8,17 +8,6 @@ export const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export const throttle = (callback, delayBetweenFrames) => {
-  let lastTime = 0;
-  return (...rest) => {
-    const now = new Date();
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-};
-
 export const showErrorOnMap = (message) => {
   const messageElement = document.createElement('div');
   messageElement.style.zIndex = 500;
@@ -33,4 +22,21 @@ export const showErrorOnMap = (message) => {
   messageElement.style.backgroundColor = 'red';
   messageElement.textContent = message;
   document.querySelector('.map').insertAdjacentElement('afterbegin', messageElement);
+};
+
+export const showPopupMessage = (element) => {
+  const messageTemplate = document.querySelector(`#${element}`).content.querySelector(`.${element}`);
+  const messageElement = messageTemplate.cloneNode(true);
+  document.body.insertAdjacentElement('beforeend', messageElement);
+
+  document.addEventListener('click', () => {
+    messageElement.remove();
+  }, { once: true });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      messageElement.remove();
+    }
+  }, { once: true });
 };
