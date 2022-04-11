@@ -44,7 +44,7 @@ roomNumberField.addEventListener('change', () => {
   pristine.validate(capacityField);
 });
 
-//Проверка полей "Время заезда и выезда"
+//Синхронизация полей "Время заезда и выезда"
 timeinField.addEventListener('change', (evt) => {
   timeoutField.value = evt.target.value;
 });

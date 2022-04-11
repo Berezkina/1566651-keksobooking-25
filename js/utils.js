@@ -1,6 +1,8 @@
+import { TIMEOUT_DELAY } from './consts.js';
+
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export const debounce = (callback, timeoutDelay = 500) => {
+export const debounce = (callback, timeoutDelay = TIMEOUT_DELAY) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);

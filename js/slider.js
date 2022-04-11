@@ -14,15 +14,8 @@ noUiSlider.create(sliderElement, {
   step: SliderSettings.STEP,
   connect: SliderSettings.CONNECT,
   format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    to: (value) => value.toFixed(SliderSettings.NUMBER_DECIMAL_PLACES),
+    from: (value) => parseFloat(value),
   },
 });
 
@@ -37,7 +30,7 @@ valueElement.addEventListener('change', (evt) => {
 });
 
 typeElement.addEventListener('change', () => {
-  const placeholderValue = Number(valueElement.getAttribute('placeholder'));
+  const placeholderValue = Number(valueElement.placeholder);
   if (!valueElement.value && placeholderValue !== '') {
     sliderElement.noUiSlider.updateOptions({
       start: placeholderValue,
