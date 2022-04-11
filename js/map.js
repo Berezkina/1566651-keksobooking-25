@@ -1,4 +1,4 @@
-import { MapSettings } from './consts.js';
+import { NUMBER_DECIMAL_PLACES, MapSettings } from './consts.js';
 import { markupCard } from './card-markup.js';
 
 const adForm = document.querySelector('.ad-form');
@@ -6,7 +6,7 @@ const mapFilters = document.querySelector('.map__filters');
 const addressField = adForm.querySelector('#address');
 
 const setAddressFieldValue = (address) => {
-  addressField.value = `${address.lat.toFixed(5)}, ${address.lng.toFixed(5)}`;
+  addressField.value = `${address.lat.toFixed(NUMBER_DECIMAL_PLACES)}, ${address.lng.toFixed(NUMBER_DECIMAL_PLACES)}`;
 };
 
 const mainPinIcon = L.icon ({

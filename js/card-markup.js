@@ -30,7 +30,7 @@ const getPhotosList = (photosContainer, photos) => {
 
     photos.forEach((photo) => {
       const photoElement = photoTemplate.cloneNode(true);
-      photoElement.setAttribute('src', photo);
+      photoElement.src = photo;
       photosFragment.appendChild(photoElement);
     });
 
@@ -49,7 +49,7 @@ const markupCard = ({author, offer}) => {
   getFeaturesList(cardElement.querySelector('.popup__features'), offer.features);
   cardElement.querySelector('.popup__description').textContent = offer.description;
   getPhotosList(cardElement.querySelector('.popup__photos'), offer.photos);
-  cardElement.querySelector('.popup__avatar').setAttribute('src', author.avatar);
+  cardElement.querySelector('.popup__avatar').src = author.avatar;
   return cardElement;
 };
 
